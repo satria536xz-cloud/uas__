@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Store - Toko Baju & Dashboard Admin</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        /* Style Navbar Modern */
+        .navbar-custom {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 15px 0;
+        }
+        
+        /* Wadah untuk menyejajarkan Logo dan Tombol di Kiri */
+        .nav-left-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #212529;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        /* TOMBOL KEMBALI KE BERANDA PORTFOLIO */
+        .btn-back-portfolio {
+            background: #212529;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.4rem 1.2rem;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            border: 2px solid #212529;
+            white-space: nowrap;
+        }
+
+        .btn-back-portfolio:hover {
+            background: transparent;
+            color: #212529;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link-custom {
+            font-weight: 500;
+            color: #495057;
+            margin: 0 10px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+        .nav-link-custom.active, .nav-link-custom:hover {
+            background-color: #212529;
+            color: #ffffff !important;
+        }
+
+        /* Banner Toko */
+        .hero-banner {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200') no-repeat center center;
+            background-size: cover;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+
+        /* Style Card Baju (Etalase E-commerce) */
+        .cloth-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .cloth-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .cloth-img-wrapper {
+            position: relative;
+            height: 280px;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+        .cloth-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .cloth-card:hover .cloth-img {
+            transform: scale(1.08);
+        }
+        .cloth-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(255,255,255,0.9);
+            color: #212529;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            pointer-events: none;
+        }
+        .price-tag {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        /* Style Halaman Admin (Data Penjualan) */
+        .admin-header {
+            background-color: #212529;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+            border-bottom: 4px solid #212529;
+        }
+
+        @media (max-width: 991px) {
+            .nav-left-wrapper { gap: 0.8rem; }
+            .btn-back-portfolio { padding: 0.3rem 0.8rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR UTAMA -->
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top mb-4">
+        <div class="container">
+            <!-- Sisi Kiri Navbar: Brand + Tombol Kembali Ke Portfolio Beranda -->
+            <div class="nav-left-wrapper">
+                <a class="navbar-brand" href="#" onclick="switchPage('toko')"><i class="fa-solid fa-bag-shopping me-2"></i>KSRF store</a>
+                <a href="p.html" class="btn-back-portfolio">🏠 Kembali ke Beranda</a>
+            </div>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom active" id="menu-toko" href="#" onclick="switchPage('toko')"><i class="fa-solid fa-store me-1"></i> Toko Baju</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" id="menu-admin" href="#" onclick="switchPage('admin')"><i class="fa-solid fa-chart-line me-1"></i> Admin Data Penjualan</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 1: TOKO ONLINE / ETALASE BAJU                             -->
+        <!-- ================================================================= -->
+        <div id="page-toko">
+            <div class="hero-banner">
+                <h1 class="display-4 fw-bold">Koleksi Barang Belanjaanmu DI Sini </h1>
+                <p class="lead">Temukan gaya pakaian kasual, formal, dan perlengkapan terbaik di sini.</p>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="fw-bold m-0">Katalog Pakaian</h3>
+                <span class="text-muted" id="totalItemsDisplay">Memuat produk...</span>
+            </div>
+
+            <!-- Grid Etalase Baju -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" id="tokoBajuContainer">
+                <!-- Kartu Produk Baju Akan Di-Render JavaScript Di Sini -->
+            </div>
+        </div>
+
+
+        <!-- ================================================================= -->
+        <!-- HALAMAN 2: DASHBOARD ADMIN & DATA PENJUALAN                       -->
+        <!-- ================================================================= -->
+        <div id="page-admin" style="display: none;">
+            <div class="admin-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="m-0 fw-bold">📊 Dashboard Analitik & Penjualan</h2>
+                    <small class="text-secondary">Kelola transaksi dan tambah list produk display</small>
+                </div>
+                <div id="currentDate" class="badge bg-light text-dark p-2 fs-6"></div>
+            </div>
+
+            <!-- Statistik Kartu Ringkasan -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <h6 class="text-muted">Total Penjualan</h6>
+                    <h3 class="fw-bold text-primary" id="totalSales">0 unit</h3>
+                </div>
+                <div class="stat-box">
+                    <h6 class="text-muted">Total Pendapatan</h6>
+                    <h3 class="fw-bold text-success" id="totalRevenue">Rp 0</h3>
+                </div>
+                <div class="stat-box">
+                    <h6 class="text-muted">Total Transaksi</h6>
+                    <h3 class="fw-bold text-info" id="totalTransactions">0</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Form Tambah Katalog Produk Baju -->
+                <div class="col-lg-4 mb-4">
+                    <div class="card p-4 border-0 shadow-sm">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-folder-plus me-2"></i>Tambah Baju Baru</h5>
+                        <div class="mb-3">
+                            <label class="form-label">Nama/Model Baju</label>
+                            <input type="text" id="inputNama" class="form-control" placeholder="Contoh: Jaket Denim Levi's" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ukuran Tersedia</label>
+                            <input type="text" id="inputUkuran" class="form-control" placeholder="Contoh: S-M, L, XL, atau All Size" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Harga Jual (Rp)</label>
+                            <input type="number" id="inputHarga" class="form-control" placeholder="150000" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nama File Gambar Baju (Lokal)</label>
+                            <input type="text" id="inputGambar" class="form-control" placeholder="Contoh: baju1.jpg atau kemeja.png" required>
+                            <small class="text-muted" style="font-size: 0.75rem;">Ketik nama file gambar yang sudah di-copy ke folder project Anda.</small>
+                        </div>
+                        <button class="btn btn-dark w-100" onclick="tambahProdukBaju()"><i class="fa-solid fa-square-plus me-2"></i>Pajang di Toko</button>
+                    </div>
+                </div>
+
+                <!-- Tabel Riwayat Data Pembelian / Penjualan -->
+                <div class="col-lg-8">
+                    <div class="card p-4 border-0 shadow-sm mb-4">
+                        <h5 class="fw-bold mb-3"><i class="fa-solid fa-list-check me-2"></i>Log Data Penjualan (Order Masuk)</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th><th>Tanggal</th><th>Produk</th><th>Qty</th><th>Harga</th><th>Total</th><th>Status</th><th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="salesTable">
+                                    <!-- Log Penjualan Masuk Disini -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL POP-UP UNTUK PREVIEW GAMBAR BESAR -->
+    <div class="modal fade" id="previewGambarModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md">
+            <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+                <div class="modal-header border-0 bg-light">
+                    <h5 class="modal-title fw-bold text-dark" id="modalNamaBaju">Detail Gambar</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0 text-center bg-black">
+                    <img src="" id="modalImgDisplay" class="img-fluid" alt="Pratinjau" style="max-height: 70vh; width: 100%; object-fit: contain;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ================= DATABASE LOCAL STORAGE =================
+        const KEY_PRODUK = 'katalogBajuToko';
+        const KEY_SALES = 'salesData';
+
+        // Data awal Produk Baju default
+        const dummyProduk = [
+            { id: 1, nama: "Kemeja Flanel Casual", ukuran: "S-M", harga: 185000, gambar: "WhatsApp Image 2026-07-09 at 06.08.35.jpeg" },
+            { id: 2, nama: "Kaos Polos Premium Cotton", ukuran: "M-L", harga: 89000, gambar: "WhatsApp Image 2026-07-09 at 06.08.35 (1).jpeg" },
+            { id: 3, nama: "Jaket Bomber Streetwear", ukuran: "L-XL", harga: 299000, gambar: "WhatsApp Image 2026-07-09 at 06.08.34.jpeg" },
+            { id: 4, nama: "Hoodie Oversize Minimalis", ukuran: "All Size", harga: 245000, gambar: "WhatsApp Image 2026-07-09 at 06.08.36.jpeg" }
+        ];
+
+        let produkBaju = JSON.parse(localStorage.getItem(KEY_PRODUK)) || dummyProduk;
+        let salesData = JSON.parse(localStorage.getItem(KEY_SALES)) || [];
+
+        if(!localStorage.getItem(KEY_PRODUK)) {
+            localStorage.setItem(KEY_PRODUK, JSON.stringify(produkBaju));
+        }
+
+        // ================= SISTEM NAVIGASI HALAMAN =================
+        function switchPage(page) {
+            if(page === 'toko') {
+                document.getElementById('page-toko').style.display = 'block';
+                document.getElementById('page-admin').style.display = 'none';
+                document.getElementById('menu-toko').classList.add('active');
+                document.getElementById('menu-admin').classList.remove('active');
+            } else {
+                document.getElementById('page-toko').style.display = 'none';
+                document.getElementById('page-admin').style.display = 'block';
+                document.getElementById('menu-toko').classList.remove('active');
+                document.getElementById('menu-admin').classList.add('active');
+            }
+        }
+
+        // Utility: Format Rupiah
+        function formatRupiah(amount) {
+            return 'Rp ' + amount.toLocaleString('id-ID');
+        }
+
+        // Set Tanggal Hari Ini
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('id-ID', { 
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+        });
+
+        // ================= LOGIK TOKO BAJU (HALAMAN DEPAN) =================
+        function renderToko() {
+            const container = document.getElementById('tokoBajuContainer');
+            container.innerHTML = '';
+            
+            document.getElementById('totalItemsDisplay').textContent = `${produkBaju.length} Produk Tersedia`;
+
+            produkBaju.forEach((baju) => {
+                const card = `
+                    <div class="col">
+                        <div class="card cloth-card h-100">
+                            <div class="cloth-img-wrapper" onclick="bukaPopUpGambar('${baju.gambar}', '${baju.nama}')">
+                                <img src="${baju.gambar}" class="cloth-img" alt="${baju.nama}">
+                                <span class="cloth-badge">Size ${baju.ukuran}</span>
+                            </div>
+                            <div class="card-body d-flex flex-column justify-content-between p-3">
+                                <div>
+                                    <h6 class="card-title fw-bold text-dark mb-1 text-truncate">${baju.nama}</h6>
+                                    <div class="price-tag mb-3">${formatRupiah(baju.harga)}</div>
+                                </div>
+                                <div class="row g-2">
+                                    <div class="col-8">
+                                        <button class="btn btn-dark w-100 btn-sm" onclick="beliBajuLangsung('${baju.nama}', ${baju.harga})">
+                                            <i class="fa-solid fa-cart-plus me-1"></i> Beli
+                                        </button>
+                                    </div>
+                                    <div class="col-4">
+                                        <button class="btn btn-outline-danger w-100 btn-sm" onclick="hapusProdukKatalog(${baju.id})">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Fungsi memicu Pop-up Modal Bootstrap
+        function bukaPopUpGambar(srcGambar, namaBaju) {
+            document.getElementById('modalImgDisplay').src = srcGambar;
+            document.getElementById('modalNamaBaju').textContent = namaBaju;
+            
+            const modalElement = new bootstrap.Modal(document.getElementById('previewGambarModal'));
+            modalElement.show();
+        }
+
+        // Aksi Tombol Beli di Toko
+        function beliBajuLangsung(namaBaju, hargaBaju) {
+            const today = new Date().toISOString().split('T')[0];
+            
+            salesData.push({
+                id: salesData.length + 1,
+                date: today,
+                product: namaBaju,
+                qty: 1,
+                price: hargaBaju,
+                status: 'Lunas'
+            });
+
+            localStorage.setItem(KEY_SALES, JSON.stringify(salesData));
+            renderAdminSales();
+            alert(`Berhasil Membeli ${namaBaju}! Data penjualan otomatis tercatat di dashboard admin.`);
+        }
+
+
+        // ================= LOGIK ADMIN DATA PENJUALAN =================
+        function renderAdminSales() {
+            const tableBody = document.getElementById('salesTable');
+            tableBody.innerHTML = '';
+            let totalSales = 0;
+            let totalRevenue = 0;
+
+            salesData.forEach((sale, index) => {
+                const total = sale.qty * sale.price;
+                totalSales += sale.qty;
+                totalRevenue += total;
+
+                const statusBadge = sale.status === 'Lunas' ? 'bg-success' : 'bg-warning text-dark';
+
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${sale.date}</td>
+                        <td class="fw-bold">${sale.product}</td>
+                        <td>${sale.qty}</td>
+                        <td>${formatRupiah(sale.price)}</td>
+                        <td>${formatRupiah(total)}</td>
+                        <td><span class="badge ${statusBadge}">${sale.status}</span></td>
+                        <td><button class="btn btn-sm btn-danger" onclick="deleteSaleTransaction(${index})"><i class="fa-solid fa-trash-can"></i></button></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+
+            document.getElementById('totalSales').textContent = totalSales + ' unit';
+            document.getElementById('totalRevenue').textContent = formatRupiah(totalRevenue);
+            document.getElementById('totalTransactions').textContent = salesData.length;
+        }
+
+        // Tambah Produk Baju Baru dari Form Admin ke Toko Depan
+        function tambahProdukBaju() {
+            const nama = document.getElementById('inputNama').value;
+            const ukuran = document.getElementById('inputUkuran').value;
+            const harga = parseInt(document.getElementById('inputHarga').value);
+            const gambar = document.getElementById('inputGambar').value || 'WhatsApp Image 2026-07-09 at 06.08.35.jpeg';
+
+            if (!nama || !ukuran || !harga) {
+                alert('Tolong isi seluruh form data baju!');
+                return;
+            }
+
+            produkBaju.push({
+                id: Date.now(),
+                nama: nama,
+                ukuran: ukuran,
+                harga: harga,
+                gambar: gambar
+            });
+
+            localStorage.setItem(KEY_PRODUK, JSON.stringify(produkBaju));
+            
+            // Reset fields
+            document.getElementById('inputNama').value = '';
+            document.getElementById('inputUkuran').value = '';
+            document.getElementById('inputHarga').value = '';
+            document.getElementById('inputGambar').value = '';
+
+            renderToko();
+            alert('Sukses! Model pakaian baru berhasil dipajang di etalase toko.');
+        }
+
+        function deleteSaleTransaction(index) {
+            if(confirm('Hapus log transaksi data penjualan ini?')) {
+                salesData.splice(index, 1);
+                localStorage.setItem(KEY_SALES, JSON.stringify(salesData));
+                renderAdminSales();
+            }
+        }
+
+        function hapusProdukKatalog(id) {
+            if(confirm('Tarik produk baju ini dari display etalase toko?')) {
+                produkBaju = produkBaju.filter(item => item.id !== id);
+                localStorage.setItem(KEY_PRODUK, JSON.stringify(produkBaju));
+                renderToko();
+            }
+        }
+
+        // Bootstrapping awal aplikasi
+        renderToko();
+        renderAdminSales();
+    </script>
+</body>
+</html>

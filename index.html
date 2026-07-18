@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Satria</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: url('gunung.jpg') center/cover no-repeat;
+            color: #f8fafc;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 25, 47, 0.65);
+            backdrop-filter: blur(4px);
+        }
+
+        .page {
+            position: relative;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 40px;
+            overflow: hidden;
+        }
+
+        .content {
+            width: min(1180px, 100%);
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero {
+            color: #f8fafc;
+        }
+
+        .hero-badge {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 22px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.22);
+            border: 1px solid rgba(255,255,255,0.28);
+            font-size: 1.1rem;
+            font-weight: 700;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 4.5vw, 4.5rem);
+            line-height: 0.95;
+            font-weight: 800;
+            margin-bottom: 24px;
+        }
+
+        .hero-text {
+            max-width: 540px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: rgba(248,250,252,0.84);
+        }
+
+        .login-card {
+            background: #ffffff;
+            padding: 36px 40px;
+            border-radius: 22px;
+            box-shadow: 0 20px 50px rgba(2,6,23,0.18);
+            color: #0f172a;
+            max-width: 420px;
+            margin-left: auto;
+        }
+
+        .login-card h2 {
+            font-size: 1.9rem;
+            margin-bottom: 10px;
+            color: #0f172a;
+            text-align: center;
+        }
+
+        .login-card p {
+            margin-bottom: 28px;
+            color: #475569;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .form-group {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            font-size: 0.95rem;
+            color: #334155;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid #e6e9ee;
+            font-size: 0.98rem;
+            color: #0f172a;
+            background: #ffffff;
+            box-shadow: inset 0 1px 0 rgba(16,24,40,0.02);
+        }
+
+        .password-group {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .password-field input {
+            padding-right: 48px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            border-radius: 999px;
+        }
+
+        .password-toggle svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #fb923c;
+            box-shadow: 0 0 0 4px rgba(251, 146, 60, 0.15);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, #fb923c, #f97316);
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.14s ease, box-shadow 0.14s ease;
+            box-shadow: 0 8px 18px rgba(249,115,22,0.18);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px rgba(249, 115, 22, 0.22);
+        }
+
+        .password-toggle:hover {
+            color: #0f172a;
+        }
+
+        .forgot {
+            display: block;
+            margin-top: 14px;
+            text-align: center;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page {
+                padding: 24px;
+            }
+
+            .hero-title {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <main class="page">
+        <section class="content">
+            <div class="hero">
+                <span class="hero-badge">Welcome to satria website</span>
+                <h1 class="hero-title">Hai, selamat datang &gt;_&lt; </h1>
+                <p class="hero-text">"Tidak ada kata gagal bagi mereka yang mau belajar dari kesalahannya.yang ada hanyalah pelajaran tentang cara mana yang belom berhasil"</p>
+            </div>
+
+            <div class="login-card">
+                <h2>Selamat Datang</h2>
+                <p style="color:#64748b;">Masukkan username dan password untuk masuk atau membuat akun baru.</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="" required />
+                    </div>
+                    <div class="form-group password-group">
+                        <label for="password">Password</label>
+                        <div class="password-field">
+                            <input type="password" id="password" placeholder="" required />
+                            <div class="password-toggle" onclick="togglePassword()" aria-label="Show password">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#64748b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" stroke="#64748b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-login" id="login-submit">Masuk</button>
+                </form>
+            </div>
+        </section>
+    </main>
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.querySelector('.password-toggle svg');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.innerHTML = '<path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" stroke="#0f172a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.innerHTML = '<path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="#64748b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 15.5C13.933 15.5 15.5 13.933 15.5 12C15.5 10.067 13.933 8.5 12 8.5C10.067 8.5 8.5 10.067 8.5 12C8.5 13.933 10.067 15.5 12 15.5Z" stroke="#64748b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>';
+            }
+        }
+
+        let accounts = JSON.parse(localStorage.getItem('satriaAccounts') || '[]');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const u = document.getElementById('username');
+            const p = document.getElementById('password');
+            if (u) u.value = '';
+            if (p) p.value = '';
+        });
+
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                alert('Harap isi username dan password.');
+                return;
+            }
+
+            const existingAccount = accounts.find(account => account.username === username);
+
+            if (existingAccount) {
+                if (password === existingAccount.password) {
+                    window.location.href = 'p.html';
+                } else {
+                    alert('Username atau password salah.');
+                }
+                return;
+            }
+
+            const loginData = {
+                username,
+                password,
+                timestamp: new Date().toISOString()
+            };
+
+            accounts.push(loginData);
+            localStorage.setItem('satriaAccounts', JSON.stringify(accounts));
+            alert('Akun berhasil dibuat. Silakan masuk lagi dengan akun yang sama.');
+            window.location.href = 'p.html';
+        });
+    </script>
+</body>
+</html>
